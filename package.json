@@ -1,0 +1,22 @@
+{
+  "author": "Andrea Longhi <andrea@spaghetticode.it> (http://spaghetticode.it)",
+  "name": "html5-form",
+  "description": "basic validations for html forms",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spaghetticode/form-valid.git"
+  },
+  "main": "form-valid",
+  "scripts": {
+    "test": "jasmine-node spec --coffee"
+  },
+  "dependencies": {
+    },
+  "devDependencies": {
+    },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}

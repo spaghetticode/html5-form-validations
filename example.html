@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="./html5-form.js"></script>
+  <script>
+    $(function() {
+      $('form').submit(function(event) {
+        event.preventDefault();
+        // this is where the validation happens:
+        success = Validator.validate('form');
+        if (success) alert('form is valid!');
+      });
+    });
+  </script>
+</head>
+<body>
+  <p>Your data</p>
+  <form action="" data-errors="{&quot;invalid&quot;:&quot;is not in the correct format&quot;,&quot;blank&quot;:&quot;cannot be blank&quot;}">
+    <p>
+      <label for="name">Name:</label>
+      <input type="text" name="name" required> (required)
+    </p>
+    <p>
+      <label for="email">Email:</label>
+      <input type="email" name="email" required> (required valid email)
+    </p>
+    <p>
+      <label for="website">Website:</label>
+      <input type="url" name="website"> (optional valid url)
+    </p>
+    <p>
+      <label for="age">Age:</label>
+      <input type="text" name="age" pattern="^\d+$" required> (required, accepts only digits)
+    </p>
+    <p>
+      <input type="submit" value="validate me!">
+    </p>
+  </form>
+</body>
+</html>
