@@ -45,6 +45,7 @@ class window.Validations
 
 
 
+
 # Each form input, select, textarea is instantiated as FormField to be checked
 # for invalid values. Error messages are read from the tag that has "data-error"
 # attribute.
@@ -81,15 +82,19 @@ class window.Field
 
 
 # Actual form validator class. It will pass to validations all the input,
-# select, textarea tags inside the form element.
+# select, textarea tags inside the form element. In order to customize your
+# ouput format you can override Validator.manageErorrs().
 class window.Validator
   @validate = (form) ->
-    validator = new Validator(form)
+    @validator = new Validator(form)
     if validator.isValid()
       true
     else
-      alert validator.errorMessages()
+      @manageErorrs(validator)
       false
+
+  @manageErorrs = (validator) ->
+    alert validator.errorMessages()
 
   constructor: (element) ->
     @errors  = {}
