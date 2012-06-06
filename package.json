@@ -2,7 +2,7 @@
   "author": "Andrea Longhi <andrea@spaghetticode.it> (http://spaghetticode.it)",
   "name": "html5-form-validations",
   "description": "html5 style form validations also where not supported by the browser",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/spaghetticode/html5-form-validations.git"
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "jsdom": "",
-    "jquery": ""
+    "jquery": "",
+    "coffee-script": ""
   },
   "devDependencies": {
     "jasmine-node": ""
