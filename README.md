@@ -1,5 +1,7 @@
 # html5 form validations
 
+[![Build Status](https://secure.travis-ci.org/spaghetticode/html5-form-validations.png)](http://travis-ci.org/spaghetticode/html5-form-validations)
+
 This library aims to be a simple way to add some kind of client-side
 validations to form elements.
 
