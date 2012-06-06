@@ -1,6 +1,6 @@
 # This the class that holds all available validations for your form fields.
 # Error messages must be provided in the html, see Field class
-class window.Validations
+class Validations
   @emailRegexp = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/
   @urlRegexp   = /^(?:(?:ht|f)tp(?:s?)\:\/\/|~\/|\/)?(?:\w+:\w+@)?((?:(?:[-\w\d{1-3}]+\.)+(?:com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|edu|co\.uk|ac\.uk|it|fr|tv|museum|asia|local|travel|[a-z]{2}))|((\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)(\.(\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)){3}))(?::[\d]{1,5})?(?:(?:(?:\/(?:[-\w~!$+|.,=]|%[a-f\d]{2})+)+|\/)+|\?|#)?(?:(?:\?(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)*(?:#(?:[-\w~!$ |\/.,*:;=]|%[a-f\d]{2})*)?$/
 
@@ -43,15 +43,17 @@ class window.Validations
         name = element.attr('name')
         element.addError('invalid') unless Validations.urlRegexp.test(value)
 
+window.Validations = Validations
+
 
 
 
 # Each form input, select, textarea is instantiated as FormField to be checked
 # for invalid values. Error messages are read from the tag that has "data-error"
 # attribute.
-class window.Field
+class Field
   @messages = (message) ->
-    @_messages or= $('[data-merda]').data('merda')
+    @_messages or= $('[data-errros]').data('errors')
     if message then @_messages[message] else @_messages
 
   constructor: (element) ->
@@ -64,12 +66,11 @@ class window.Field
     if @errors.length then false else true
 
   validate: ->
-    # why do I need to prefix Validations with window to make tests pass?
-    window.Validations.validatePattern(@)
-    window.Validations.validateRequired(@)
-    window.Validations.validateAccepted(@)
-    window.Validations.validateEmail(@)
-    window.Validations.validateUrl(@)
+    Validations.validatePattern(@)
+    Validations.validateRequired(@)
+    Validations.validateAccepted(@)
+    Validations.validateEmail(@)
+    Validations.validateUrl(@)
 
   addError: (message) -> @errors.push Field.messages(message)
 
@@ -79,15 +80,17 @@ class window.Field
 
   val: -> @element.val()
 
+window.Field = Field
+
 
 
 
 # Actual form validator class. It will pass to validations all the input,
 # select, textarea tags inside the form element. In order to customize your
 # ouput format you can override Validator.manageErorrs().
-class window.Validator
+class Validator
   @validate = (form) ->
-    @validator = new Validator(form)
+    validator = new @(form)
     if validator.isValid()
       true
     else
@@ -104,8 +107,7 @@ class window.Validator
   isValid: ->
     @errors = {}
     for element in @element.find('input, select, textarea')
-      # again, why do I have to add "window." to make tests pass?
-      formField = new window.Field(element)
+      formField = new Field(element)
       unless formField.isValid()
         @errors[formField.name()] = formField.errors
     $.isEmptyObject(@errors)
@@ -115,3 +117,5 @@ class window.Validator
     for name, errors of @errors
       message += "#{name} #{errors.join ', '}\n"
     message
+
+window.Validator = Validator

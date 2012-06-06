@@ -4,5 +4,5 @@ html  = fs.readFileSync './spec/fixtures/form.html', 'utf-8'
 global.window = jsdom.jsdom(html).createWindow()
 global.jQuery = global.$ = require 'jquery'
 
-require '../../coffee/html5-form'
+require '../../coffee/html5-form-validations'
 require './support/jasmine-extensions'
