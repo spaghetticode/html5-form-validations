@@ -10,7 +10,7 @@ class window.Validations
       if element.attr('type') == 'radio'
         @validateRadio(element)
       else
-        element.addError('blank') if /^\s*$/.test(element.val())
+        element.addError('blank') if /^\s*$/.test(element.val()) or !element.val()
 
   # checks that the element value matches a regexp
   @validatePattern = (element) ->
@@ -51,7 +51,7 @@ class window.Validations
 # attribute.
 class window.Field
   @messages = (message) ->
-    @_messages or= $('[data-errors]').data('errors')
+    @_messages or= $('[data-merda]').data('merda')
     if message then @_messages[message] else @_messages
 
   constructor: (element) ->
@@ -64,11 +64,12 @@ class window.Field
     if @errors.length then false else true
 
   validate: ->
-    Validations.validatePattern(@)
-    Validations.validateRequired(@)
-    Validations.validateAccepted(@)
-    Validations.validateEmail(@)
-    Validations.validateUrl(@)
+    # why do I need to prefix Validations with window to make tests pass?
+    window.Validations.validatePattern(@)
+    window.Validations.validateRequired(@)
+    window.Validations.validateAccepted(@)
+    window.Validations.validateEmail(@)
+    window.Validations.validateUrl(@)
 
   addError: (message) -> @errors.push Field.messages(message)
 
@@ -94,7 +95,7 @@ class window.Validator
       false
 
   @manageErorrs = (validator) ->
-    alert validator.errorMessages()
+    alert validator.errorMessage()
 
   constructor: (element) ->
     @errors  = {}
@@ -103,12 +104,13 @@ class window.Validator
   isValid: ->
     @errors = {}
     for element in @element.find('input, select, textarea')
-      formField = new Field(element)
+      # again, why do I have to add "window." to make tests pass?
+      formField = new window.Field(element)
       unless formField.isValid()
         @errors[formField.name()] = formField.errors
     $.isEmptyObject(@errors)
 
-  errorMessages: ->
+  errorMessage: ->
     message = ''
     for name, errors of @errors
       message += "#{name} #{errors.join ', '}\n"
