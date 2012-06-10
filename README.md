@@ -13,7 +13,7 @@ At the moment it supports the following html5 validations: required, pattern,
 email, url. More can be added easily, but I am not needing them right now.
 
 You can customize the behaviour when errors are found by the library extending
-Validator.manageErorrs() method. By default it just alerts the user with a list
+Validator.manageErrors() method. By default it just alerts the user with a list
 of errors, which is not that nice ;-)
 
 

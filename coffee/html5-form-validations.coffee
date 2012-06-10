@@ -87,17 +87,17 @@ window.Field = Field
 
 # Actual form validator class. It will pass to validations all the input,
 # select, textarea tags inside the form element. In order to customize your
-# ouput format you can override Validator.manageErorrs().
+# ouput format you can override Validator.manageErrors().
 class Validator
   @validate = (form) ->
     validator = new @(form)
     if validator.isValid()
       true
     else
-      @manageErorrs(validator)
+      @manageErrors(validator)
       false
 
-  @manageErorrs = (validator) ->
+  @manageErrors = (validator) ->
     alert validator.errorMessage()
 
   constructor: (element) ->
